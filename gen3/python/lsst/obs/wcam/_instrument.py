@@ -2,32 +2,32 @@ import os
 from lsst.utils import getPackageDir
 from lsst.utils.introspection import get_full_type_name
 from lsst.obs.base import Instrument, yamlCamera
-from .necamFilters import NECAM_FILTER_DEFINITIONS
+from .wcamFilters import WCAM_FILTER_DEFINITIONS
 from lsst.afw.cameraGeom import makeCameraFromPath, CameraConfig
-# Comment-out the following line if you put .translators/necam.py in the
+# Comment-out the following line if you put .translators/wcam.py in the
 # astro_metadata_translator repository:
-from .translators import NeCamTranslator
+from .translators import WCamTranslator
 
-class NeCam(Instrument):
+class WCam(Instrument):
 
     # Filter definitions are needed when registering the filters.
-    filterDefinitions = NECAM_FILTER_DEFINITIONS
+    filterDefinitions = WCAM_FILTER_DEFINITIONS
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         # Tell it where the config file are:
-        packageDir = getPackageDir("obs_necam")
+        packageDir = getPackageDir("obs_wcam")
         self.configPaths = [os.path.join(packageDir, "config")]
 
     def getCamera(self):
         '''
-        This grabs the camera information in the camera/n1_necam.yaml file.
+        This grabs the camera information in the camera/n1_wcam.yaml file.
         '''
         path = os.path.join(
-            getPackageDir("obs_necam"),
+            getPackageDir("obs_wcam"),
             "camera",
-            'n1_necam.yaml')
+            'n1_wcam.yaml')
         camera = yamlCamera.makeCamera(path)
         return camera
 
@@ -36,11 +36,11 @@ class NeCam(Instrument):
         '''
         This must return the instrument name.
         '''
-        return "NeCam"
+        return "WCam"
 
     def getRawFormatter(self, dataId):
-        from .rawFormatter import NeCamRawFormatter
-        return NeCamRawFormatter
+        from .rawFormatter import WCamRawFormatter
+        return WCamRawFormatter
 
     def makeDataIdTranslatorFactory(self):
         '''
