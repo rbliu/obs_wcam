@@ -1,24 +1,24 @@
 
-__all__ = ("NeCamTranslator", )
+__all__ = ("WCamTranslator", )
 
 from astro_metadata_translator import cache_translation, FitsTranslator
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, Angle
 
-class NeCamTranslator(FitsTranslator):
-    """Metadata translator for NeCam FITS headers.
+class WCamTranslator(FitsTranslator):
+    """Metadata translator for WCam FITS headers.
 
     Under normal circumstances, translators are found in the astro_metadata_translator repository. However, it is possible to also put them in an obs_package, provided that they are imported in both the _instrument.py and rawFormatter.py files.
 
-    This one is in obs_necam to keep everything togeter in one place.
+    This one is in obs_wcam to keep everything togeter in one place.
     """
 
     """Name of this translation class"""
-    name = "NeCam"
+    name = "WCam"
 
-    """Supports the Necam instrument."""
-    supported_instrument = "NeCam"
+    """Supports the Wcam instrument."""
+    supported_instrument = "WCam"
 
     """
     _const_map includes properties that you may not know, nor can calculate.
@@ -59,7 +59,7 @@ class NeCamTranslator(FitsTranslator):
         """
         butler ingest-raws cycles through the known translators, using this method to determine whether each one can translate supplied header.
 
-        This example just checks the INSTRUME header keyword and returns True if it contains "NECAM". However, you can make this as stringent as you like (e.g., perhaps you can currently handle a limited range of filters)
+        This example just checks the INSTRUME header keyword and returns True if it contains "WCAM". However, you can make this as stringent as you like (e.g., perhaps you can currently handle a limited range of filters)
 
         Parameters
         ----------
@@ -77,7 +77,7 @@ class NeCamTranslator(FitsTranslator):
         # Use INSTRUME. Because of defaulting behavior only do this
         # if we really have an INSTRUME header
         if "INSTRUME" in header:
-            if header["INSTRUME"] == "NECAM":
+            if header["INSTRUME"] == "WCAM":
                 return True
         return False
 
@@ -107,8 +107,8 @@ class NeCamTranslator(FitsTranslator):
 
     @cache_translation
     def to_instrument(self):
-        if self._header["INSTRUME"] == "NECAM":
-            return "NeCam"
+        if self._header["INSTRUME"] == "WCAM":
+            return "WCam"
         else:
             #It should never get here, given can_translate().
             return "Unknown"
